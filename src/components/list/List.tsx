@@ -46,7 +46,6 @@ const List: FC<{ entityInfo: IEntitiesInfo }> = ({ entityInfo }) => {
   return (
     <Box>
       <Paper className='list-paper'>
-        <SvgIcon></SvgIcon>
         <Typography sx={{ color: theme => theme.palette.primary.main, margin: '0.5rem' }} variant='h4'>
           {entityInfo.title}
         </Typography>
