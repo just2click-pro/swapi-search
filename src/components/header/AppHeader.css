@@ -1,0 +1,33 @@
+.app-header {
+  background-color: var(--primary-main);
+}
+
+.app-header__brand {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.app-header__logo {
+  display: none;
+  margin-right: 1rem;
+}
+
+@media (min-width: 960px) {
+  .app-header__logo {
+    display: flex;
+  }
+}
+
+.app-header__title {
+  margin-right: 2rem;
+  font-family: Montserrat;
+  font-weight: 700;
+  letter-spacing: 0.3rem;
+  text-decoration: none;
+}
+
+.app-header__toggle {
+  display: flex;
+  flex-grow: 1;
+  justify-content: flex-end;
+}

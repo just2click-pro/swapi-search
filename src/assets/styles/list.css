@@ -1,0 +1,8 @@
+.list-paper {
+  background-color: var(--primary-contrast-text) !important;
+  margin-top: 3.5rem;
+}
+
+.list-entity-title {
+  color: var(--primary-light) !important;
+}
