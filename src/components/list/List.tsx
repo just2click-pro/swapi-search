@@ -11,25 +11,22 @@ import TableCell from '@mui/material/TableCell'
 import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
 import Typography from '@mui/material/Typography'
-import SvgIcon from '@mui/material/SvgIcon'
+
+import { useTheme } from '@mui/material/styles'
 
 import { Edit, Delete, Add } from '@mui/icons-material'
 
 import { getEntityData } from '@/services/GetData'
 import { IEntitiesInfo } from '@/assets/data/entities'
-import { capitalizeFirstLetter } from '@/utils'
+import DynamicSvgIcon from '@/components/dynamicSvgIcon/DynamicSvgIcon'
 
-import { ReactComponent as Planets } from '@/assets/images/planets.svg'
-import { ReactComponent as People } from '@/assets/images/people.svg'
-import { ReactComponent as Films } from '@/assets/images/films.svg'
-import { ReactComponent as Starships } from '@/assets/images/startships.svg'
-import { ReactComponent as Vehicles } from '@/assets/images/vehicles.svg'
-import { ReactComponent as Species } from '@/assets/images/species.svg'
+import { capitalizeFirstLetter } from '@/utils'
 
 import '@/assets/styles/list.css'
 
 const List: FC<{ entityInfo: IEntitiesInfo }> = ({ entityInfo }) => {
   const dispatch = useDispatch()
+  const theme = useTheme()
 
   const [data, setData] = useState([])
 
@@ -43,19 +40,48 @@ const List: FC<{ entityInfo: IEntitiesInfo }> = ({ entityInfo }) => {
     fetchEntityData()
   }, [])
 
+  const formatDifferentValues = (value: string): string => {
+    if (!value) return ''
+    const isNumeric = /^\d+$/.test(value)
+
+    if (isNumeric) {
+      return parseInt(value).toLocaleString('en-US')
+    }
+
+    return capitalizeFirstLetter(value)
+  }
+
+  const formatHeader = (value: string): string => {
+    if (!value) return ''
+    const withSpaces = value.replaceAll('_', ' ')
+    return capitalizeFirstLetter(withSpaces)
+  }
+
   return (
     <Box>
       <Paper className='list-paper'>
-        <Typography sx={{ color: theme => theme.palette.primary.main, margin: '0.5rem' }} variant='h4'>
-          {entityInfo.title}
-        </Typography>
+        <Box sx={{ display: 'flex' }}>
+          <DynamicSvgIcon
+            iconName={entityInfo.name}
+            svgProps={{
+              width: 32,
+              height: 32,
+              fill: `${theme.palette.primary.contrastText}`,
+              stroke: `${theme.palette.primary.main}`
+            }}
+            wrappedStyle='list-entity-icon'
+          />
+          <Typography sx={{ color: theme => theme.palette.primary.main, margin: '0.5rem' }} variant='h4'>
+            {entityInfo.title}
+          </Typography>
+        </Box>
 
         <Table className='list-table'>
           <TableHead>
             <TableRow>
               {entityInfo.attributes.map((header: string) => (
                 <TableCell key={header} className='list-table-header-cell'>
-                  {capitalizeFirstLetter(header)}
+                  {formatHeader(header)}
                 </TableCell>
               ))}
             </TableRow>
@@ -66,7 +92,7 @@ const List: FC<{ entityInfo: IEntitiesInfo }> = ({ entityInfo }) => {
             <TableRow key={data.id}>
               {entityInfo.attributes.map((header: string) => (
                 <TableCell key={header} className='list-table-cell'>
-                  {data[header]}
+                  {formatDifferentValues(data[header])}
                 </TableCell>
               ))}
               <TableCell>
