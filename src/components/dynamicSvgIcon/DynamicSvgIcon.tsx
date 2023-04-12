@@ -10,8 +10,7 @@ interface IProps {
   stroke?: string
 }
 
-function DynamicSvgIcon(props: IProps) {
-  const { iconName, wrappedStyle, svgProps } = props
+function DynamicSvgIcon({ iconName, wrappedStyle, svgProps = {}, fill = '', stroke = '' }: IProps) {
   const { loading, SvgIcon } = useDynamicSVGImport(iconName)
 
   return (
