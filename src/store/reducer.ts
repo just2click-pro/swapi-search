@@ -18,6 +18,21 @@ const initialState = {
   items: Array<IItem>()
 }
 
+export const addItem = (item: any) => ({
+  type: ActionType.ADD_ITEM,
+  payload: item
+})
+
+export const editItem = (item: any) => ({
+  type: ActionType.EDIT_ITEM,
+  payload: item
+})
+
+export const deleteItem = (id: string) => ({
+  type: ActionType.DELETE_ITEM,
+  payload: id
+})
+
 const reducer = (state = initialState, action: Action) => {
   const { type, payload } = action
 
