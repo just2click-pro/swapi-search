@@ -1,7 +1,5 @@
 import React, { FC, useState, useEffect } from 'react'
 
-import { useDispatch, useSelector } from 'react-redux'
-
 import { useTheme } from '@mui/material/styles'
 
 import { getEntityData } from '@/services/GetData'
@@ -19,7 +17,6 @@ import ListCell from './ListCell'
 import '@/assets/styles/list.css'
 
 const List: FC<{ entityInfo: IEntitiesInfo }> = ({ entityInfo }) => {
-  const dispatch = useDispatch()
   const theme = useTheme()
 
   const [data, setData] = useState([])

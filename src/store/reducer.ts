@@ -1,4 +1,5 @@
 import { ActionType } from './constants'
+import { v4 as uuid } from 'uuid'
 
 export interface IItem {
   id: string
@@ -38,6 +39,7 @@ const reducer = (state = initialState, action: Action) => {
 
   switch (type) {
     case ActionType.ADD_ITEM:
+      payload.id = uuid()
       return {
         ...state,
         items: [...state.items, payload]

@@ -1,7 +1,6 @@
 import React, { FC, useState } from 'react'
 
 import { useDispatch, useSelector } from 'react-redux'
-import { v4 as uuid } from 'uuid'
 
 import IconButton from '@mui/material/IconButton'
 import TableCell from '@mui/material/TableCell'
@@ -12,49 +11,30 @@ import { Edit, Delete, Add } from '@mui/icons-material'
 import { editItem, deleteItem, addItem } from '@/store/reducer'
 
 import { formatTableValues } from '@/utils'
+import CommonDialog, { DialogType } from '@/components/commonDialog/CommonDialog'
 
 const ListCell: FC<{ data: any; attributes: string[] }> = ({ data, attributes }) => {
   const dispatch = useDispatch()
 
   const [pageData, setPageData] = useState(data)
+  const [dialogState, setDialogState] = useState(false)
+  const [dialogType, setDialogType] = useState<DialogType>('add')
 
-  const [createFormOpenState, setCreateFormOpenState] = useState(false)
-  const [editFormOpenState, setEditFormOpenState] = useState(false)
-  const [deleteFormOpenState, setDeleteFormOpenState] = useState(false)
-
-  const [selectedRowToEdit, setSelectedRowToEdit] = useState(null)
-  const [selectedRowToDelete, setSelectedRowToDelete] = useState(null)
-
-  const openCreateFormState = () => {
-    setCreateFormOpenState(true)
+  const openDialog = (data?: React.SetStateAction<null>) => {
+    setDialogState(true)
   }
 
-  const closeCreateFormState = () => {
-    setCreateFormOpenState(false)
+  const closeDialog = () => {
+    setDialogState(false)
   }
 
-  const callAddItem = (item: any) => {
-    const newItem = {
-      id: uuid(),
-      ...item
-    }
-
-    dispatch(addItem(newItem))
-    setPageData([...pageData, newItem])
-    closeCreateFormState()
+  const handleAddItem = (item: any) => {
+    dispatch(addItem(item))
+    setPageData([...pageData, item])
+    closeDialog()
   }
 
-  const openEditFormState = (data: React.SetStateAction<null>) => {
-    setSelectedRowToEdit(data)
-    setEditFormOpenState(true)
-  }
-
-  const closeEditFormState = () => {
-    setSelectedRowToEdit(null)
-    setEditFormOpenState(false)
-  }
-
-  const callEditItem = (id: string, updates: any) => {
+  const handleEditItem = (id: string, updates: any) => {
     const editedItem = {
       id,
       ...updates
@@ -64,40 +44,61 @@ const ListCell: FC<{ data: any; attributes: string[] }> = ({ data, attributes })
     setPageData(pageData.map((item: any) => (item.id === id ? editedItem : item)))
   }
 
-  const openDeleteFormState = (data: React.SetStateAction<null>) => {
-    setSelectedRowToDelete(data)
-    setDeleteFormOpenState(true)
-  }
-
-  const closeDeleteFormState = () => {
-    setSelectedRowToDelete(null)
-    setDeleteFormOpenState(false)
-  }
-
-  const callDeleteItem = (id: string) => {
+  const handleDeleteItem = (id: string) => {
     dispatch(deleteItem(id))
     setPageData(pageData.filter((item: any) => item.id !== id))
   }
 
   return (
-    <TableRow key={data.id}>
-      {attributes.map((header: string) => (
-        <TableCell key={header} className='list-table-cell'>
-          {formatTableValues(data[header])}
+    <>
+      <TableRow key={data.id}>
+        {attributes.map((header: string) => (
+          <TableCell key={header} className='list-table-cell'>
+            {formatTableValues(data[header])}
+          </TableCell>
+        ))}
+        <TableCell>
+          <IconButton
+            className='list-table-icon'
+            onClick={() => {
+              setDialogType('update')
+              openDialog()
+            }}
+          >
+            <Edit />
+          </IconButton>
+          <IconButton
+            className='list-table-icon'
+            onClick={() => {
+              setDialogType('add')
+              openDialog()
+            }}
+          >
+            <Add />
+          </IconButton>
+          <IconButton
+            className='list-table-icon'
+            onClick={() => {
+              setDialogType('delete')
+              openDialog()
+            }}
+          >
+            <Delete />
+          </IconButton>
         </TableCell>
-      ))}
-      <TableCell>
-        <IconButton className='list-table-icon'>
-          <Edit />
-        </IconButton>
-        <IconButton className='list-table-icon'>
-          <Add />
-        </IconButton>
-        <IconButton className='list-table-icon'>
-          <Delete />
-        </IconButton>
-      </TableCell>
-    </TableRow>
+      </TableRow>
+      <CommonDialog
+        type={dialogType}
+        open={dialogState}
+        close={closeDialog}
+        attributes={data.attributes}
+        data={data}
+        handleAddItem={handleAddItem}
+        handleEditItem={handleEditItem}
+        handleDeleteItem={handleDeleteItem}
+        id={data.id}
+      />
+    </>
   )
 }
 
