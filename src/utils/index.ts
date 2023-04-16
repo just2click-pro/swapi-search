@@ -17,7 +17,7 @@ function formatNumbers(value: string): string {
   return parseInt(value).toLocaleString('en-US')
 }
 
-function formatHeight(value: string, unitSign: string): string {
+function formatWithUnits(value: string, unitSign: string): string {
   const valueAsNumber = parseInt(value)
 
   if (isNaN(valueAsNumber)) {
@@ -37,9 +37,9 @@ export function formatTableValues(value: string, header: string): string | any {
       return
     case 'height':
     case 'length':
-      return formatHeight(value, ' m')
+      return formatWithUnits(value, ' m')
     case 'cargo_capacity':
-      return formatHeight(value, ' kg')
+      return formatWithUnits(value, ' kg')
   }
 
   if (isNumeric) {
