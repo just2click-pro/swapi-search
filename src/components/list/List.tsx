@@ -61,7 +61,7 @@ const List: FC<{ entityInfo: IEntitiesInfo }> = ({ entityInfo }) => {
             </Typography>
           </Box>
           <IconButton
-            className='list-table-icon'
+            sx={{ height: '2.5rem', width: '2.5rem', margin: '0.5rem' }}
             onClick={() => {
               listCellRef.current?.openAddDialog()
             }}

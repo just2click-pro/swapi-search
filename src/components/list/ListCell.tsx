@@ -57,7 +57,7 @@ const ListCell: FC<ListCellProps> = forwardRef<OpenAddDialog, ListCellProps>(({ 
 
   const handleAddItem = (item: any) => {
     dispatch(addItem(item))
-    setPageData([...pageData, item])
+    setPageData(item)
     closeDialog()
   }
 
@@ -73,7 +73,7 @@ const ListCell: FC<ListCellProps> = forwardRef<OpenAddDialog, ListCellProps>(({ 
 
   const handleDeleteItem = (id: string) => {
     dispatch(deleteItem(id))
-    setPageData(pageData.filter((item: any) => item.id !== id))
+    setPageData(deleteItem)
   }
 
   return (

@@ -28,8 +28,7 @@ const CommonDialog: FC<{
   handleAddItem: (newItem: any) => void
   handleEditItem: (id: string, editedItem: any) => void
   handleDeleteItem: (id: string) => void
-  id?: string
-}> = ({ type, attributes, data, open, close, handleAddItem, handleEditItem, handleDeleteItem, id }) => {
+}> = ({ type, attributes, data, open, close, handleAddItem, handleEditItem, handleDeleteItem }) => {
   const theme = useTheme()
 
   // Only relates to 'add' type
@@ -104,7 +103,7 @@ const CommonDialog: FC<{
           ) : type === 'delete' ? (
             'Are you sure you want to delete this item?'
           ) : (
-            'add'
+            <DialogEditData attributes={attributes} data={newItem} handleChange={handleChange} />
           )}
         </DialogContent>
         <DialogActions>

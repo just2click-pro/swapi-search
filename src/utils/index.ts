@@ -17,10 +17,14 @@ function formatNumbers(value: string): string {
   return parseInt(value).toLocaleString('en-US')
 }
 
-function formatHeight(value: string): string {
+function formatHeight(value: string, unitSign: string): string {
   const valueAsNumber = parseInt(value)
 
-  return (valueAsNumber / 100).toFixed(2) + ' m'
+  if (isNaN(valueAsNumber)) {
+    return value
+  }
+
+  return (valueAsNumber / 100).toFixed(2) + unitSign
 }
 
 export function formatTableValues(value: string, header: string): string | any {
@@ -32,7 +36,10 @@ export function formatTableValues(value: string, header: string): string | any {
     case 'gender':
       return
     case 'height':
-      return formatHeight(value)
+    case 'length':
+      return formatHeight(value, ' m')
+    case 'cargo_capacity':
+      return formatHeight(value, ' kg')
   }
 
   if (isNumeric) {
