@@ -1,26 +1,53 @@
-import React, { FC, useState } from 'react'
+import React, { FC, forwardRef, useImperativeHandle, useState } from 'react'
 
 import { useDispatch, useSelector } from 'react-redux'
 
+import * as MUIcon from '@mui/icons-material'
 import IconButton from '@mui/material/IconButton'
 import TableCell from '@mui/material/TableCell'
 import TableRow from '@mui/material/TableRow'
 
-import { Edit, Delete, Add } from '@mui/icons-material'
+import { Edit, Delete } from '@mui/icons-material'
 
 import { editItem, deleteItem, addItem } from '@/store/reducer'
 
-import { formatTableValues } from '@/utils'
+import { formatTableValues, capitalizeFirstLetter } from '@/utils'
+
 import CommonDialog, { DialogType } from '@/components/commonDialog/CommonDialog'
 
-const ListCell: FC<{ data: any; attributes: string[] }> = ({ data, attributes }) => {
+import { OpenAddDialog } from './List'
+
+interface IconProps {
+  icon?: keyof typeof MUIcon
+}
+
+const IconComp: React.FC<IconProps> = ({ icon }) => {
+  if (!icon) return null
+
+  const Icon = MUIcon[icon]
+  return <Icon />
+}
+
+interface ListCellProps {
+  data: any
+  attributes: string[]
+}
+
+const ListCell: FC<ListCellProps> = forwardRef<OpenAddDialog, ListCellProps>(({ data, attributes }, ref) => {
   const dispatch = useDispatch()
 
   const [pageData, setPageData] = useState(data)
   const [dialogState, setDialogState] = useState(false)
-  const [dialogType, setDialogType] = useState<DialogType>('add')
+  const [dialogType, setDialogType] = useState<DialogType>('update')
 
-  const openDialog = (data?: React.SetStateAction<null>) => {
+  useImperativeHandle(ref, () => ({
+    openAddDialog() {
+      setDialogType('add')
+      openDialog()
+    }
+  }))
+
+  const openDialog = () => {
     setDialogState(true)
   }
 
@@ -41,7 +68,7 @@ const ListCell: FC<{ data: any; attributes: string[] }> = ({ data, attributes })
     }
 
     dispatch(editItem(editedItem))
-    setPageData(pageData.map((item: any) => (item.id === id ? editedItem : item)))
+    setPageData(editedItem)
   }
 
   const handleDeleteItem = (id: string) => {
@@ -51,10 +78,16 @@ const ListCell: FC<{ data: any; attributes: string[] }> = ({ data, attributes })
 
   return (
     <>
-      <TableRow key={data.id}>
+      <TableRow key={pageData.id}>
         {attributes.map((header: string) => (
           <TableCell key={header} className='list-table-cell'>
-            {formatTableValues(data[header])}
+            {header === 'gender' ? (
+              <IconComp
+                icon={pageData[header] === 'n/a' ? 'Android' : (capitalizeFirstLetter(pageData[header]) as any)}
+              />
+            ) : (
+              formatTableValues(pageData[header], header)
+            )}
           </TableCell>
         ))}
         <TableCell>
@@ -66,15 +99,6 @@ const ListCell: FC<{ data: any; attributes: string[] }> = ({ data, attributes })
             }}
           >
             <Edit />
-          </IconButton>
-          <IconButton
-            className='list-table-icon'
-            onClick={() => {
-              setDialogType('add')
-              openDialog()
-            }}
-          >
-            <Add />
           </IconButton>
           <IconButton
             className='list-table-icon'
@@ -91,7 +115,7 @@ const ListCell: FC<{ data: any; attributes: string[] }> = ({ data, attributes })
         type={dialogType}
         open={dialogState}
         close={closeDialog}
-        attributes={data.attributes}
+        attributes={attributes}
         data={data}
         handleAddItem={handleAddItem}
         handleEditItem={handleEditItem}
@@ -100,6 +124,6 @@ const ListCell: FC<{ data: any; attributes: string[] }> = ({ data, attributes })
       />
     </>
   )
-}
+})
 
 export default ListCell

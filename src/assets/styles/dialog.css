@@ -1,0 +1,19 @@
+.dialogHead {
+  background-color: rgb(185, 217, 235);
+}
+
+.dialog-content {
+  width: 100%;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: flex-start;
+  padding: 0;
+}
+
+.cancel-button {
+  background-color: blanchedalmond;
+}
+
+.submit-button {
+  background-color: rgb(170, 206, 249);
+}

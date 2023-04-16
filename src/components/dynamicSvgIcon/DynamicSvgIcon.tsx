@@ -6,11 +6,9 @@ interface IProps {
   iconName: string
   wrappedStyle?: string
   svgProps?: SVGProps<SVGAElement>
-  fill?: string
-  stroke?: string
 }
 
-function DynamicSvgIcon({ iconName, wrappedStyle, svgProps = {}, fill = '', stroke = '' }: IProps) {
+function DynamicSvgIcon({ iconName, wrappedStyle, svgProps = {} }: IProps) {
   const { loading, SvgIcon } = useDynamicSVGImport(iconName)
 
   return (

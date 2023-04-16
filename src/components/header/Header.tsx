@@ -6,7 +6,7 @@ import SvgIcon from '@mui/material/SvgIcon'
 import { ReactComponent as Logo } from '@/assets/images/planets.svg'
 import DarkModeToggle from './DarkModeToggle'
 
-import './AppHeader.css'
+import '@/assets/styles/header.css'
 
 const Header: FC = () => {
   return (
