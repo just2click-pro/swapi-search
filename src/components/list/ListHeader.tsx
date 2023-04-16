@@ -10,7 +10,7 @@ import '@/assets/styles/list.css'
 
 const ListHeader: FC<{ attributes: string[] }> = ({ attributes }) => {
   return (
-    <TableHead>
+    <TableHead sx={{ display: 'table-header-group' }}>
       <TableRow>
         {attributes.map((header: string) => (
           <TableCell key={header} className='list-table-header-cell'>

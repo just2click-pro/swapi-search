@@ -17,9 +17,23 @@ function formatNumbers(value: string): string {
   return parseInt(value).toLocaleString('en-US')
 }
 
-export function formatTableValues(value: string): string {
+function formatHeight(value: string): string {
+  const valueAsNumber = parseInt(value)
+
+  return (valueAsNumber / 100).toFixed(2) + ' m'
+}
+
+export function formatTableValues(value: string, header: string): string | any {
   if (!value) return ''
   const isNumeric = /^\d+$/.test(value)
+
+  // Special handling of specific values
+  switch (header) {
+    case 'gender':
+      return
+    case 'height':
+      return formatHeight(value)
+  }
 
   if (isNumeric) {
     return formatNumbers(value)
