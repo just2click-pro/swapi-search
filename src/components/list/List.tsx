@@ -73,8 +73,8 @@ const List: FC<{ entityInfo: IEntitiesInfo }> = ({ entityInfo }) => {
         <Table className='list-table'>
           <ListHeader attributes={entityInfo.attributes} />
           <TableBody>
-            {data.map((data: any) => (
-              <ListCell data={data} attributes={entityInfo.attributes} ref={listCellRef} />
+            {data.map((item: any) => (
+              <ListCell key={item.id} data={item} attributes={entityInfo.attributes} ref={listCellRef} />
             ))}
           </TableBody>
         </Table>
