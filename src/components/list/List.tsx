@@ -41,6 +41,10 @@ const List: FC<{ entityInfo: IEntitiesInfo }> = ({ entityInfo }) => {
     fetchEntityData()
   }, [])
 
+  const handleDeleteItem = (id: string) => {
+    setData(data.filter((item: any) => item.id !== id))
+  }
+
   return (
     <Box>
       <Paper className='list-paper'>
@@ -73,8 +77,14 @@ const List: FC<{ entityInfo: IEntitiesInfo }> = ({ entityInfo }) => {
         <Table className='list-table'>
           <ListHeader attributes={entityInfo.attributes} />
           <TableBody>
-            {data.map((data: any) => (
-              <ListCell data={data} attributes={entityInfo.attributes} ref={listCellRef} />
+            {data.map((item: any) => (
+              <ListCell
+                key={item.id}
+                data={item}
+                attributes={entityInfo.attributes}
+                ref={listCellRef}
+                handleItemDelete={() => handleDeleteItem(item.id)}
+              />
             ))}
           </TableBody>
         </Table>
