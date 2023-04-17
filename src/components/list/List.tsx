@@ -41,6 +41,10 @@ const List: FC<{ entityInfo: IEntitiesInfo }> = ({ entityInfo }) => {
     fetchEntityData()
   }, [])
 
+  const handleDeleteItem = (id: string) => {
+    setData(data.filter((item: any) => item.id !== id))
+  }
+
   return (
     <Box>
       <Paper className='list-paper'>
@@ -61,7 +65,7 @@ const List: FC<{ entityInfo: IEntitiesInfo }> = ({ entityInfo }) => {
             </Typography>
           </Box>
           <IconButton
-            className='list-table-icon'
+            sx={{ display: 'flex', width: 40, height: 40, margin: '0.5rem' }}
             onClick={() => {
               listCellRef.current?.openAddDialog()
             }}
@@ -74,7 +78,13 @@ const List: FC<{ entityInfo: IEntitiesInfo }> = ({ entityInfo }) => {
           <ListHeader attributes={entityInfo.attributes} />
           <TableBody>
             {data.map((item: any) => (
-              <ListCell key={item.id} data={item} attributes={entityInfo.attributes} ref={listCellRef} />
+              <ListCell
+                key={item.id}
+                data={item}
+                attributes={entityInfo.attributes}
+                ref={listCellRef}
+                handleItemDelete={() => handleDeleteItem(item.id)}
+              />
             ))}
           </TableBody>
         </Table>
