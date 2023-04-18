@@ -10,7 +10,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: OpenAI ChatGPT Code Review
-        uses: adshao/chatgpt-code-review-action
+        uses: adshao/chatgpt-code-review-action@v0.2
         with:
           PROGRAMMING_LANGUAGE: 'JavaScript'
           OPENAI_TOKEN: ${{ secrets.OPENAI_TOKEN }}
