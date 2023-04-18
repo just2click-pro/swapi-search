@@ -104,7 +104,7 @@ const CommonDialog: FC<{
           ) : type === 'delete' ? (
             'Are you sure you want to delete this item?'
           ) : (
-            'add'
+            <DialogEditData attributes={attributes} data={initialState} handleChange={handleChange} />
           )}
         </DialogContent>
         <DialogActions>
