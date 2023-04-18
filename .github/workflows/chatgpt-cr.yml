@@ -6,14 +6,14 @@ jobs:
   code-review:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-    - name: OpenAI ChatGPT Code Review
-      uses: nodify-at/gpt-pull-bot@1.0.3
+      - name: OpenAI ChatGPT Code Review
+        uses: nodify-at/gpt-pull-bot@1.0.3
         with:
-            PROGRAMMING_LANGUAGE: 'JavaScript'
-            OPENAI_TOKEN: ${{ secrets.OPENAI_TOKEN }}
-            GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
-            FULL_REVIEW_COMMENT: 'chatgpt'
-            REVIEW_COMMENT_PREFIX: 'chatgpt:'
+          PROGRAMMING_LANGUAGE: 'JavaScript'
+          OPENAI_TOKEN: ${{ secrets.OPENAI_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+          FULL_REVIEW_COMMENT: 'chatgpt'
+          REVIEW_COMMENT_PREFIX: 'chatgpt:'
