@@ -13,9 +13,9 @@ const DialogEditData: FC<{
 }> = ({ attributes, data, handleChange }) => {
   const [dataToEdit, setDataToEdit] = useState(data)
 
-  useEffect(() => {
-    setDataToEdit(data)
-  }, [data])
+  // useEffect(() => {
+  //   setDataToEdit(data)
+  // }, [data])
 
   const handleChangeLocal = (attribute: string, value: string) => {
     setDataToEdit((prevData: any) => ({

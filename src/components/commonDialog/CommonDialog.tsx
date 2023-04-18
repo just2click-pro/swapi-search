@@ -42,36 +42,30 @@ const CommonDialog: FC<{
     : []
   const [title, setTitle] = useState('')
   const [submitButtonText, setSubmitButtonText] = useState('Save')
-  const [newItem, setNewItem] = useState(initialState)
-  const [editedData, setEditedDate] = useState(data)
-
-  useEffect(() => {
-    setEditedDate(data)
-  }, [data])
+  const [item, setItem] = useState(initialState)
 
   useEffect(() => {
     switch (type) {
       case 'add':
         setTitle('Create a new item')
+        setItem(initialState)
         break
       case 'update':
         setTitle('Update an item')
+        setItem(data)
         break
       case 'delete':
         setTitle('Confirm delete')
         setSubmitButtonText('Delete')
         break
     }
-  }, [type])
+  }, [data, type])
 
   const handleChange = (attr: string, value: string) => {
     if (type === 'add') {
-      setNewItem(prev => ({
-        ...prev,
-        [attr]: value
-      }))
+      setItem((prev: any) => ({ ...prev, [attr]: value }))
     } else if (type === 'update') {
-      setEditedDate((prev: any) => ({
+      setItem((prev: any) => ({
         ...prev,
         [attr]: value
       }))
@@ -81,11 +75,11 @@ const CommonDialog: FC<{
   const handleSubmit = () => {
     switch (type) {
       case 'add':
-        handleAddItem(newItem)
-        setNewItem(newItem)
+        handleAddItem(item)
+        setItem(item)
         break
       case 'update':
-        handleEditItem(data.id, editedData)
+        handleEditItem(data.id, item)
         close()
         break
       case 'delete':
