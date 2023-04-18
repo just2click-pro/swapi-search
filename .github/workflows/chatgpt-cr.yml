@@ -13,7 +13,7 @@ jobs:
         uses: nodify-at/gpt-pull-bot@1.0.3
         with:
           PROGRAMMING_LANGUAGE: 'JavaScript'
-          OPENAI_TOKEN: ${{ secrets.OPENAI_API_KEY }}
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+          api-key: ${{ secrets.OPENAI_API_KEY }}
+          github-token: ${{ secrets.GH_TOKEN }}
           FULL_REVIEW_COMMENT: 'chatgpt'
           REVIEW_COMMENT_PREFIX: 'chatgpt:'
