@@ -11,15 +11,11 @@ const DialogEditData: FC<{
   data: any
   handleChange: (attribute: string, value: string) => void
 }> = ({ attributes, data, handleChange }) => {
-  const [dataToEdit, setDataToEdit] = useState(data)
-
-  // useEffect(() => {
-  //   setDataToEdit(data)
-  // }, [data])
+  const [item, setItem] = useState(data)
 
   const handleChangeLocal = (attribute: string, value: string) => {
-    setDataToEdit((prevData: any) => ({
-      ...prevData,
+    setItem((prev: any) => ({
+      ...prev,
       [attribute]: value
     }))
 
@@ -37,7 +33,7 @@ const DialogEditData: FC<{
           label={convertUnderscoresToSpaces(attribute)}
           placeholder={convertUnderscoresToSpaces(attribute)}
           inputProps={{ maxLength: 15 }}
-          value={dataToEdit[attribute] ? dataToEdit[attribute] : ''}
+          value={item[attribute] ? item[attribute] : ''}
           onChange={e => handleChangeLocal(attribute, e.target.value)}
         />
       ))}
